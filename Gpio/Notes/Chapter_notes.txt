@@ -1,0 +1,10 @@
+=> What is pin muxing?
+=> What is pin controller?
+=> What is GPIO?
+=> What is pin controll subsystem?
+=> What is pin controller driver?
+=> What is pull-up?
+=> What is pull-down?
+=> What is drive strength?
+=> What is debounce period?
+
