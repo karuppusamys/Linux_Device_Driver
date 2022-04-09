@@ -1,0 +1,9 @@
+Ring buffer
+
+dmesg -w
+
+dmesg -C
+
+dmesg log levels
+ 
+
