@@ -1,9 +1,33 @@
-Ring buffer
 
-dmesg -w
+1. dmesg command also called as “driver message” or “display message"
 
-dmesg -C
+2. /var/log/messages	//Location where dmesg logs are stored
 
-dmesg log levels
- 
+3. dmesg log levels	//To differenciate the message priorities
+
+4. Ring buffer		//Name of dmesg buffer
+
+
+//Query
+1.What is the size of dmesg buffer?
+
+
+
+//dmesg related commands
+
+dmesg		//To see the logs
+
+dmesg -w	//Watch the dmesg data in real time
+
+dmesg | more	//To see dmesg in page by page
+
+dmesg | less 	//To see dmesg in page by page
+
+dmesg | head	//To see top 10 lines of dmesg
+
+dmesg | head -x	//To see top x lines of dmesg
+
+dmesg | tail -x //To see bottom x lines of dmesg
+
+dmesg -C	//To clear the dmesg ring bugger
 
