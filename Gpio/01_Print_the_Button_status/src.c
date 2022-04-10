@@ -28,7 +28,7 @@ static int init_button(void)
 	retval = gpio_direction_input(PUSH_BUTTON);
 	if(retval < 0)
 	{
-		printk(KERN_ERR "Unable to set direction for GPIO: %d \n", PUSH_BUTTON);
+		printk(KERN_ERR "Unable to set direction for GPIO pin: %d \n", PUSH_BUTTON);
 		goto ERR_1;
 	}
 
@@ -38,6 +38,14 @@ static int init_button(void)
 	if(retval < 0)
 	{
 		printk(KERN_WARNING "Not able to set the debounce value for GPIO: %d, Error: %d\n", PUSH_BUTTON, retval);
+	}
+
+	/* Export the gpio in to /sys/class/gpio. Second parameter is specifing
+		the pin direction change acess from user space via sysfs */
+	retval = gpio_export(PUSH_BUTTON, true);
+	if(retval < 0)
+	{
+		printk(KERN_WARNING "Unable to export the GPIO pin: %d, Error: %d\n", PUSH_BUTTON, retval);
 	}
 
 	/* Get the sleep state of given gpio's controller */
@@ -65,6 +73,7 @@ ERR_0:
 
 static void exit_button(void)
 {
+	gpio_unexport(PUSH_BUTTON);
 	gpio_free(PUSH_BUTTON);
 	printk(KERN_INFO "GPIOs are released\n");
 }
