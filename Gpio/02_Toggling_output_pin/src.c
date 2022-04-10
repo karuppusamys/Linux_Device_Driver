@@ -1,5 +1,6 @@
 #include <linux/module.h>
 #include <linux/gpio.h>
+#include <linux/delay.h>
 
 #define LED_BUTTON	20
 #define DEBOUNCE_VAL_MS	10
@@ -48,14 +49,18 @@ static int init_button(void)
 	{
 		printk(KERN_INFO "GPIO controller will not sleep\n");
 		gpio_set_value(LED_BUTTON, PIN_STATE_HIGH);
+		msleep(1000);
+		gpio_set_value(LED_BUTTON, PIN_STATE_LOW);
 	}
 	else
 	{
 		printk(KERN_INFO "GPIO controller may sleep\n");
 		gpio_set_value_cansleep(LED_BUTTON, PIN_STATE_HIGH);
+		msleep(1000);
+		gpio_set_value_cansleep(LED_BUTTON, PIN_STATE_LOW);
 	}
 
-	printk(KERN_NOTICE "Set GPIO %d state as %d\n", LED_BUTTON, PIN_STATE_HIGH);
+	printk(KERN_NOTICE "GPIO pin %d is toggled\n", LED_BUTTON);
 	return 0;
 
 ERR_1:
