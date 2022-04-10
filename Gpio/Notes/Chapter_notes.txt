@@ -1,3 +1,4 @@
+/---------------------------------------------------------------------------------------/
 => What is pin muxing?
 => What is pin controller?
 => What is GPIO?
@@ -7,4 +8,30 @@
 => What is pull-down?
 => What is drive strength?
 => What is debounce period?
+/---------------------------------------------------------------------------------------/
 
+
+/---------------------------------------------------------------------------------------/
+/sys/class/gpio			// Gpio details exported directory
+/sys/kernel/debug/gpio	//To read the all exported gpio status in single go
+/---------------------------------------------------------------------------------------/
+
+
+/---------------------------------------------------------------------------------------/
+The basic steps to use a GPIO pin from the sysfs interface are the following:
+
+1. Export the pin.
+$echo 24 >/sys/class/gpio/export		// To verify $ ls /sys/class/gpio
+
+2. Set the pin direction (input or output).
+$ echo in >/sys/class/gpio/gpio24/direction or $ echo out >/sys/class/gpio/gpio24/direction
+
+3. If an output pin, set the level to low or high.
+$ echo 0 >/sys/class/gpio/gpio24/value or $ echo 1 >/sys/class/gpio/gpio24/value
+
+4. If an input pin, read the pin's level (low or high).
+$ cat /sys/class/gpio/gpio24/value
+
+5. When done, unexport the pin.
+$echo 24 >/sys/class/gpio/unexport		// To verify $ls /sys/class/gpio
+/---------------------------------------------------------------------------------------/
