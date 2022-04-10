@@ -1,8 +1,8 @@
 #include <linux/module.h>
 #include <linux/gpio.h>
 
-#define PUSH_BUTTON			21
-#define DEBOUNCE_VAL_MS		10
+#define PUSH_BUTTON	21
+#define DEBOUNCE_VAL_MS	10
 
 static int init_button(void)
 {
