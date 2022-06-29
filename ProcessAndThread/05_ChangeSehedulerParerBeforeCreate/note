@@ -1,7 +1,0 @@
-gcc main.c -o test -pthread
-or
-cc main.c -o test -pthread
-or
-gcc main.c -pthread
-or 
-cc main.c -pthread
