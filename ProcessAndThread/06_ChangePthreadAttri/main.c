@@ -1,5 +1,6 @@
 //Refernce : https://users.cs.cf.ac.uk/dave/C/node30.html
 //Reference : https://users.cs.cf.ac.uk/dave/C/node29.html#SECTION002910000000000000000
+// Reference for basics: https://users.cs.cf.ac.uk/dave/C/
 //Reference : https://www.tutorialspoint.com/unix_system_calls/fork.htm
 #include<stdio.h>
 #include<string.h>
