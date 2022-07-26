@@ -8,7 +8,7 @@
 #define MEM_SIZE 1024
 
 #define WR_CMD _IOW('A', 'a', int32_t*)
-#define RD_CMD _IOR('A', 'a', int32_t*)
+#define RD_CMD _IOR('A', 'b', int32_t*)
 
 dev_t dev_num;
 struct class* my_class;

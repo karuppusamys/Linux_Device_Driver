@@ -4,8 +4,8 @@
 #include<unistd.h>		//close()
 #include<sys/ioctl.h>	//_IOR, _IOW
 
-#define USR_RD_CMD _IOR('A', 'a', int32_t*)
-#define USR_WR_CMD _IOW('A', 'b', int32_t*)
+#define USR_WR_CMD _IOW('A', 'a', int32_t*)
+#define USR_RD_CMD _IOR('A', 'b', int32_t*)
 
 int32_t ioctl_val = 5;
 
