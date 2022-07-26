@@ -1,0 +1,4 @@
+sudo insmod test_LKM.ko shared_var=5 shared_arr=3,2,1
+
+ls /sys/module/test_LKM/parameters/
+ 
