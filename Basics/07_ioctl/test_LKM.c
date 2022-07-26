@@ -1,18 +1,28 @@
-#include<linux/module.h>
+#include<linux/module.h>	//module_init(), module_exit()
 #include<linux/kdev_t.h> 	//MKDEV
-#include <linux/fs.h>		//dev_t, register_chrdev_region, unregister_chrdev_region
-#include <linux/device.h>	//class_create
-#include <linux/cdev.h>
+#include<linux/fs.h>		//dev_t, register_chrdev_region, unregister_chrdev_region
+#include<linux/device.h>	//class_create
+#include<linux/cdev.h>		//cdev_init(), cdev_add(), cdev_del()
+#include<linux/slab.h>		//kmalloc(), kfree()
+#include<linux/ioctl.h>		//_IOW, _IOR
+#define MEM_SIZE 1024
+
+#define WR_CMD _IOW('A', 'a', int32_t*)
+#define RD_CMD _IOR('A', 'a', int32_t*)
 
 dev_t dev_num;
 struct class* my_class;
 struct device* my_device;
 struct cdev my_cdev;
+int32_t ioctl_val;
+
+uint8_t *kern_buff;
 
 int my_open(struct inode* myinode, struct file* myfile);
 int my_close(struct inode* myinode, struct file* myfile);
 ssize_t my_read(struct file* myfile, char __user *buf, size_t len, loff_t *off);
 ssize_t my_write(struct file* myfile, const char *buf, size_t len, loff_t *off);
+long my_ioctl(struct file *myfile, unsigned int cmd, unsigned long arg);
 
 int my_open(struct inode* myinode, struct file* myfile)
 {
@@ -29,21 +39,56 @@ int my_close(struct inode* myinode, struct file* myfile)
 ssize_t my_read(struct file* myfile, char __user *buf, size_t len, loff_t *off)
 {
 	printk(KERN_INFO "I am from read\n");
+	if(copy_to_user(buf, kern_buff, MEM_SIZE))
+	{
+		printk(KERN_WARNING "Failed copy the data\n");
+	}
+
 	return 0;
 }
 
 ssize_t my_write(struct file* myfile, const char *buf, size_t len, loff_t *off)
 {
 	printk(KERN_INFO "I am from write\n");
+	if(copy_from_user(kern_buff, buf, MEM_SIZE))
+	{
+		printk(KERN_WARNING "Failed copy the data\n");
+	}
+
 	return len;
 }
 
+long my_ioctl(struct file *myfile, unsigned int cmd, unsigned long arg)
+{
+	switch(cmd)
+	{
+		case WR_CMD:
+			printk(KERN_INFO "I am from ioctl write\n");
+			if(copy_from_user(&ioctl_val, (int32_t*)arg, sizeof(ioctl_val)))
+			{
+				printk(KERN_WARNING "Failed to copy the data\n");
+			}
+			break;
+		case RD_CMD:
+			printk(KERN_INFO "I am from ioctl read\n");
+			if(copy_to_user((int32_t*)arg, &ioctl_val, sizeof(ioctl_val)))
+			{
+				printk(KERN_WARNING "Failed to copy the data\n");
+			}
+			break;
+		default:
+			printk(KERN_WARNING "Invalid command\n");
+			break;
+	}
+	return 0;
+}
 struct file_operations fops = 
 {
 	.owner = THIS_MODULE,
 	.open =	my_open,
 	.read = my_read,
 	.write = my_write,
+	.unlocked_ioctl = my_ioctl,
 	.release = my_close,
 };
 
@@ -81,8 +126,18 @@ int __init start_fun(void)
 	
 	cdev_add(&my_cdev, dev_num, 1);
 
+	kern_buff = kmalloc(MEM_SIZE, GFP_KERNEL);
+	
+	if(kern_buff < 0)
+	{
+		printk(KERN_WARNING "Unable to allocate the memory\n");
+		goto STEP_3;
+	}
 	return 0;
 
+STEP_3:
+	cdev_del(&my_cdev);
+	device_destroy(my_class, dev_num);
 STEP_2:
 	class_destroy(my_class);
 STEP_1:
@@ -93,6 +148,7 @@ STEP_1:
 void __exit cleanup_fun(void)
 {
 	printk(KERN_INFO "I am from cleanup fun\n");
+	kfree(kern_buff);
 	cdev_del(&my_cdev);
 	device_destroy(my_class, dev_num);
 	class_destroy(my_class);
