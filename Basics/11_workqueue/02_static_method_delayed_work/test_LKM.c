@@ -2,27 +2,31 @@
 #include<linux/delay.h>
 #include <linux/workqueue.h> 
 
-void workqueue_fn(struct work_struct *work); 
+void workqueue_fn(struct  work_struct *delay_work); 
  
 /*Creating work by Static Method */
-DECLARE_WORK(my_workqueue,workqueue_fn);
+DECLARE_DELAYED_WORK(my_workqueue,workqueue_fn);
  
 /*Workqueue Function*/
-void workqueue_fn(struct work_struct *work)
+void workqueue_fn(struct  work_struct *delay_work)
 {
         pr_info("Executing Workqueue Function\n");
+		printk(KERN_INFO "Current Jiffies count: %lu\n", jiffies);
 }
 
 int __init start_fun(void)
 {
 	printk(KERN_INFO "I am from starup fun\n");
-	schedule_work(&my_workqueue);
+	printk(KERN_INFO "Number of jiffier per sconds: %u\n", HZ);
+	
+	printk(KERN_INFO "Current Jiffies count: %lu\n", jiffies);
+	schedule_delayed_work(&my_workqueue, HZ * 2);
 //	ndelay(1000);
 //	udelay(1000);
 //	mdelay(1000);
 //	usleep_range(500, 600);
-	msleep(500);
-	//ssleep(5);
+//	msleep(500);
+//	ssleep(5);
 	return 0;
 }
 

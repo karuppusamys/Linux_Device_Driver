@@ -2,10 +2,10 @@
 #include<linux/delay.h>
 #include <linux/workqueue.h> 
 
+/* Work structure */
+static struct work_struct my_workqueue;
+
 void workqueue_fn(struct work_struct *work); 
- 
-/*Creating work by Static Method */
-DECLARE_WORK(my_workqueue,workqueue_fn);
  
 /*Workqueue Function*/
 void workqueue_fn(struct work_struct *work)
@@ -16,13 +16,10 @@ void workqueue_fn(struct work_struct *work)
 int __init start_fun(void)
 {
 	printk(KERN_INFO "I am from starup fun\n");
+	/*Creating work by Dynamic Method */
+    INIT_WORK(&my_workqueue,workqueue_fn);
+
 	schedule_work(&my_workqueue);
-//	ndelay(1000);
-//	udelay(1000);
-//	mdelay(1000);
-//	usleep_range(500, 600);
-	msleep(500);
-	//ssleep(5);
 	return 0;
 }
 
