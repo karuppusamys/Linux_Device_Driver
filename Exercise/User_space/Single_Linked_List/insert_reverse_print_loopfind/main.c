@@ -15,6 +15,7 @@ void find_loop(struct Node *);
 void reverse_nod_method1(struct Node **);
 void reverse_nod_method2(struct Node **);
 void assend_only_value(struct Node *);
+void  del_nod(struct Node **, struct Node *);
 int main(void)
 {
     struct Node *head = NULL;
@@ -45,6 +46,8 @@ int main(void)
     reverse_nod_method2(&head);
     print_node_val(head);
     
+    del_nod(&head, head->next->next->next);
+    print_node_val(head);   
     
     
     return 0;
@@ -191,6 +194,31 @@ void reverse_nod_method2(struct Node **my_head)
     
     *my_head = prev_nod;
     
+}
+
+void del_nod(struct Node **my_head, struct Node *nod_to_del)
+{
+    
+    struct Node *prev_nod = NULL, *current_nod = *my_head;
+    while(current_nod != NULL)
+    {
+        if(current_nod == nod_to_del)
+        {
+            if(prev_nod != NULL)
+            {
+                prev_nod->next = current_nod->next;
+            }
+            else
+            {
+                *my_head = current_nod->next;
+            }
+            free(current_nod);
+            return;
+        }
+        prev_nod = current_nod;
+        
+        current_nod = current_nod->next; 
+    }
 }
 
 void print_node_val(struct Node *my_head)
