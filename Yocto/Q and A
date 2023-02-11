@@ -10,3 +10,4 @@ How to increase the size of dmesg buffer.
 What all are the different log levels.
 How to set the needed log levels.
 meaning of make file (make -c for entering and leaving).
+What all are the detils in kernel module file(user, licence, version, desciption).
