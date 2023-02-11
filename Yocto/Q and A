@@ -20,3 +20,9 @@ yocto-layer create layername
 differernce between softlink and hardlink
 
 Short cut command for select command from history
+
+bitbake -c clean linux-msm
+
+bitbake linux-msm
+
+bitbake -C compile linux-msm
