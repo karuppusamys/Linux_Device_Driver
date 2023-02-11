@@ -26,3 +26,5 @@ bitbake -c clean linux-msm
 bitbake linux-msm
 
 bitbake -C compile linux-msm
+
+strings modulename.ko (To see the list of symbols in the module)
