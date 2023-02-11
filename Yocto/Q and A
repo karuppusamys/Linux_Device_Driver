@@ -4,3 +4,8 @@ What is recepie
 What is the uses of source command
 What is serial boot
 How to do the partion in pendriver for put u-boot and linux images
+How to enable and discable the kernel logs (may be from bootarg)
+How the see the data in the log buffer (demsg or demsg -w, dmesg -C for clean).
+How to increase the size of dmesg buffer.
+What all are the different log levels.
+How to set the needed log levels.
