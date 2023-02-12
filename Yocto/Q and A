@@ -29,19 +29,19 @@ bitbake -C compile linux-msm
 
 strings modulename.ko (To see the list of symbols in the module)
 
-To remove temp:
+  To remove temp:
 
-bitbake -c clean gstreamer
+    bitbake -c clean gstreamer
 
-To remove temp and sstate cache (I use this most):
+  To remove temp and sstate cache (I use this most):
 
-bitbake -c cleansstate gstreamer
+    bitbake -c cleansstate gstreamer
 
-To remove download as well, and lets begin build starting from do_fetch and all
+  To remove download as well, and lets begin build starting from do_fetch and all
 
-bitbake -c cleanall gstreamer
+    bitbake -c cleanall gstreamer
 
-Once you are done with either of these clean, which ever suits you, you can simple give build command for the specified:
+  Once you are done with either of these clean, which ever suits you, you can simple give build command for the specified:
 
-bitbake gstreamer
+    bitbake gstreamer
 
